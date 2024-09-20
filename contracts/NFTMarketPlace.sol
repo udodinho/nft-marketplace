@@ -62,4 +62,21 @@ contract NFTMarketPlace is ERC721URIStorage, Ownable {
         tokenPrices[_nftId] = 0;
         safeTransferFrom(ownerOf(_nftId), msg.sender, _nftId);
     }
+
+    function listNFTForSale(uint256 _nftId, uint256 _price) public {
+        if(msg.sender == address(0)) {
+            revert AddressZeroDetected();
+        }
+
+        if(ownerOf(_nftId) != msg.sender) {
+            revert NotNFTOwner();
+        }
+
+        if(price == 0) {
+            revert ZeroValueNotAllowed();
+        }
+
+        tokenPrices[_nftId] = price;
+        isForSale[_nftId] = true;
+    }
 };
