@@ -5,7 +5,14 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract NFTMarketPlace is ERC721URIStorage, Ownable {
+    error AddressZeroDetected();
+    error InsufficientFunds();
+    error ZeroValueNotAllowed();
+    error NotAnNFT();
+    error NotNFTOwner();
 
+
+    address public owner;
     uint256 public fee;
     uint256 private nftId;
     mapping(uint256 => address) private owners;
@@ -17,6 +24,7 @@ contract NFTMarketPlace is ERC721URIStorage, Ownable {
 
     constructor(uint256 _fee) ERC721("UDVee NFT", "UNFT") Ownable(msg.sender) {
         fee = _fee;
+        owner = msg.sender;
     }
 
      function mint(string memory _tokenURI) public onlyOwner {
